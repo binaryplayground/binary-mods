@@ -2,6 +2,19 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// Method 1: Filter at the site_option level (works for Pro license)
+add_filter( 'default_site_option_edd_pro_license_key', function( $value ) {
+    return $value ? $value : 'MOCK_KEY';
+}, 1, 3 );
+
+add_filter( 'default_site_option_edd_pro_license', function( $value ) {
+    return (object) array(
+        'license' => 'valid',
+        'key'     => 'MOCK_KEY',
+        'success' => true,
+    );
+}, 1, 3 );
+
 /**
  * Change login logo
  */
