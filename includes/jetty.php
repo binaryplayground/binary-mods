@@ -2,6 +2,20 @@
 
 defined( 'ABSPATH' ) || exit;
 
+/** Disable EDD notice */
+add_filter( 'pre_site_option_edd_pro_license', function( $pre_option ) {
+    // Return false to let WordPress continue with normal option retrieval
+    if ( $pre_option !== false ) {
+        return $pre_option;
+    }
+    
+    // Create a mock valid license object
+    return (object) array(
+        'license' => 'valid',
+        'key'     => 'mock-key-to-hide-notice',
+    );
+} );
+
 /**
  * Change login logo
  */
