@@ -3,6 +3,16 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Add typekit fonts
+ */
+function frags_add_typekit(){
+    if ( ! is_admin() ) { 
+        echo '<link rel="stylesheet" href="https://use.typekit.net/bmc0efd.css"><style>.wp-block-site-title a { font-family: bitcount-prop-double-square, sans-serif; font-weight: 500; font-style: normal; }</style>';
+    }
+};
+add_action('wp_head', 'frags_add_typekit');
+
+/**
  * Change login logo
  */
 function frags_login_logo() { ?>
