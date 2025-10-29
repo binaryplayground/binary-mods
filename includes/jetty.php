@@ -10,6 +10,16 @@ add_action( 'admin_head', function() {
 }, 999 );
 
 /**
+ * Remove the Pro license weekly check
+ */
+add_action( 'init', function() {
+    if ( class_exists( '\\EDD\\Cron\\Components\\Passes' ) ) {
+        $passes_component = new \EDD\Cron\Components\Passes();
+        remove_action( 'edd_weekly_scheduled_events', array( $passes_component, 'weekly_license_check' ) );
+    }
+}, 99 );
+
+/**
  * Change login logo
  */
 function jettyworks_login_logo() { ?>
