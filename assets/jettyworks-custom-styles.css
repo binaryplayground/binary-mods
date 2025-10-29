@@ -1,1 +1,1 @@
-.home .wp-block-site-title a { display: none !important;}
+.home .wp-block-site-title { visibility: hidden !important; }
