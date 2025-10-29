@@ -11,8 +11,15 @@ Binary Modifications is a WordPress plugin that provides shared customizations f
 ### Plugin Entry Point
 `binary-mods.php` is the main plugin file that:
 - Always loads global modifications from `includes/global-mods.php`
-- Conditionally loads site-specific modifications based on `get_site_url()` using a switch statement
-- Supports three sites: frags.au, brinybits.au, and jetty.works
+- Auto-loads site-specific modifications based on the domain name
+- Uses `wp_parse_url()` to extract the hostname and `strtok()` to get the first segment (before the first dot)
+- Only loads site file if it exists (using `file_exists()` check)
+
+**Auto-loading Convention:**
+The plugin extracts the first segment of the hostname and looks for `includes/{segment}.php`:
+- `frags.au` → `includes/frags.php`
+- `brinybits.au` → `includes/brinybits.php`
+- `jetty.works` → `includes/jetty.php`
 
 ### Site-Specific Modules
 Each site has its own PHP file in `includes/` that follows a consistent pattern:
@@ -20,10 +27,10 @@ Each site has its own PHP file in `includes/` that follows a consistent pattern:
 - Site-specific stylesheet enqueuing via `wp_enqueue_scripts` hook with `PHP_INT_MAX` priority
 - All stylesheets include cache-busting using `filemtime()`
 
-**Supported Sites:**
+**Currently Supported Sites:**
 - `frags.au` → `includes/frags.php` + `assets/frags-custom-styles.css` + `assets/frags-logo.png`
 - `brinybits.au` → `includes/brinybits.php` + `assets/brinybits-custom-styles.css` + `assets/brinybits-logo.png`
-- `jetty.works` → `includes/jettyworks.php` + `assets/jettyworks-custom-styles.css` + `assets/jettyworks-logo.png`
+- `jetty.works` → `includes/jetty.php` + `assets/jettyworks-custom-styles.css` + `assets/jettyworks-logo.png`
 
 ### Global Modifications
 `includes/global-mods.php` applies to all sites and handles:
@@ -39,11 +46,13 @@ The `assets/` directory contains:
 
 ## Adding a New Site
 
-To add support for a new site:
-1. Add a new case to the switch statement in `binary-mods.php:25-35`
-2. Create a new PHP file in `includes/` with login logo and custom styles functions
-3. Create corresponding CSS file and logo image in `assets/`
-4. Follow the naming convention: `{sitename}.php`, `{sitename}-custom-styles.css`, `{sitename}-logo.png`
+To add support for a new site, simply create the necessary files (no code changes to `binary-mods.php` required):
+
+1. Create `includes/{first-segment-of-domain}.php` (e.g., for `example.com` create `includes/example.php`)
+2. Add login logo and custom styles functions following the existing pattern
+3. Create corresponding CSS file and logo image in `assets/` (can use any naming convention in assets, just reference correctly in the PHP file)
+
+The plugin will automatically detect and load the file when running on that domain.
 
 ## WordPress Development
 
