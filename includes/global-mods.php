@@ -32,15 +32,3 @@ function binarymods_custom_styles() {
     wp_enqueue_style( 'binarymods-custom-styles', $url, array(), filemtime( $dir ), 'all' );
 }
 add_action( 'wp_enqueue_scripts', 'binarymods_custom_styles', PHP_INT_MAX );
-
-/**
- * Custom EDD labels
- */
-function binarymods_edd_product_labels( $labels ) {
-	$labels = array(
-	   'singular' => __('Product', 'easy-digital-downloads'),
-	   'plural'   => __('Products', 'easy-digital-downloads')
-	);
-	return $labels;
-}
-add_filter( 'edd_default_downloads_name', 'binarymods_edd_product_labels' );
