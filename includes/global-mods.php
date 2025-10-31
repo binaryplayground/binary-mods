@@ -58,4 +58,4 @@ function binarymods_set_download_labels($labels) {
     );
     return $labels;
 }
-add_filter( 'edd_download_labels', 'binarymods_set_download_labels', PHP_INT_MAX );
+add_filter( 'edd_download_labels', 'binarymods_set_download_labels' );
